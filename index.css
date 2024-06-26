@@ -1,6 +1,7 @@
 @font-face {
     font-family: 'JBM_Bold';
-    src: url('fonts/JetBrainsMono-Bold.woff2') format('woff2');
+    src: url('fonts/JetBrainsMono-Bold.woff2') format('woff2'),
+        url('fonts/JetBrainsMono-Bold.ttf') format('ttf');
     font-weight: normal;
     font-style: normal;
 }
