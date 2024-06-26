@@ -3,9 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bimble - Home</title>
+    <title>The Bimble Programming Language</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1 style="font-family: JBM_Bold; color: black;">The Bimble Programming Language</h1>
+    <header>
+        <h1>The Bimble Programming Language</h1>
+        <nav>
+            <ul>
+                <li><a href="#about">About</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#team">Team</a></li>
+                <li><a href="#download">Download</a></li>
+                <li><a href="#discord">Join Discord</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="about">
+        <h2>About Bimble</h2>
+        <p>The Bimble Programming Language combines the simplicity of Python, the speed of Rust, and execution similar to Java. It targets general-purpose programmers who want to create simple GUI (future plans) and CLI applications. Bimble requires the Bimble Virtual Machine (BVM) to run.</p>
+        <pre><code>
+*> this is a comment in bimble
+*> all bimble programs start from main function 
+ON main(){
+*> var
+may name = name;
+*> oprinting has 2 methods:
+*> echonl ( new line pritning no flushing of biffer needed) and echol (same line print flushing of buffer needed)
+echonl("hi");
+echol("your name? > ");
+out.flush();
+*> takein() to take inoput
+takein(name);
+*> cll other fucntions by their name followed by (); and declare functions using ON keyword
+hey();
+}
+ON hey(){
+echonl("heee");
+}
+        </code></pre>
+    </section>
+
+    <section id="features">
+        <h2>Features</h2>
+        <ul>
+            <li>Simplicity of Python</li>
+            <li>Speed of Rust</li>
+            <li>Execution similar to Java</li>
+            <li>Future plans for GUI applications</li>
+        </ul>
+    </section>
+
+    <section id="team">
+        <h2>About Us</h2>
+        <p>Virtua Startups, founded by Bilal and Jay, is a software development company aimed at providing the best software solutions.</p>
+        <h3>Team Members</h3>
+        <ul>
+            <li>Bilal - Co-founder</li>
+            <li>Jay - Co-founder</li>
+            <li>Elie Khalil - Production Manager</li>
+        </ul>
+    </section>
+
+    <section id="download">
+        <h2>Download Bimble</h2>
+        <p><a href="#">Download the Bimble Programming Language</a></p>
+    </section>
+
+    <section id="discord">
+        <h2>Join Our Community</h2>
+        <p>Join our Discord server to connect with other Bimble developers and get support:</p>
+        <p><a href="https://discord.gg/7Pneq3GbPX">Join Discord</a></p>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Virtua Startups. All rights reserved.</p>
+    </footer>
+
+    <script src="scripts.js"></script>
 </body>
 </html>
