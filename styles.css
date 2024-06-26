@@ -1,46 +1,69 @@
 body {
     font-family: Arial, sans-serif;
-    background: linear-gradient(to right, #141E30, #243B55);
+    background: linear-gradient(to bottom, #141E30, #f3e700);
     color: #fff;
     margin: 0;
     padding: 0;
+    transition: background 1s ease-in-out;
 }
 
 header {
     background: #1f2833;
     padding: 20px;
     text-align: center;
+    transition: background 1s ease-in-out;
 }
 
 header h1 {
     margin: 0;
-    color: #66fcf1;
+    color: #f3e700;
+    transition: color 1s ease-in-out;
 }
 
-nav ul {
+.container {
+    display: flex;
+}
+
+.vertical-tabs {
+    width: 200px;
+    background: #1f2833;
+    transition: background 1s ease-in-out;
+}
+
+.vertical-tabs ul {
     list-style: none;
     padding: 0;
+    margin: 0;
 }
 
-nav ul li {
-    display: inline;
-    margin: 0 10px;
+.vertical-tabs ul li {
+    margin: 0;
 }
 
-nav ul li a {
+.vertical-tabs ul li a {
+    display: block;
+    padding: 15px;
     color: #c5c6c7;
     text-decoration: none;
+    transition: color 0.3s ease-in-out, background 0.3s ease-in-out;
 }
 
-nav ul li a:hover {
-    color: #66fcf1;
+.vertical-tabs ul li a:hover {
+    background: #f3e700;
+    color: #1f2833;
 }
 
-section {
+main {
+    flex: 1;
     padding: 20px;
     margin: 20px;
     background: #1f2833;
     border-radius: 8px;
+    transition: background 1s ease-in-out;
+}
+
+section {
+    margin-bottom: 20px;
 }
 
 pre {
@@ -48,24 +71,25 @@ pre {
     padding: 15px;
     border-radius: 8px;
     overflow: auto;
+    transition: background 1s ease-in-out;
 }
 
 footer {
     text-align: center;
     padding: 10px;
     background: #1f2833;
-    position: fixed;
-    width: 100%;
-    bottom: 0;
+    transition: background 1s ease-in-out;
 }
 
 h2 {
-    color: #66fcf1;
+    color: #f3e700;
+    transition: color 1s ease-in-out;
 }
 
 a {
-    color: #66fcf1;
+    color: #f3e700;
     text-decoration: none;
+    transition: color 0.3s ease-in-out;
 }
 
 a:hover {
