@@ -9,7 +9,7 @@
   - **Buj, Deo Rishab**: Helping and making syntax for **Bimble**
   - **Bilal**: Developing the Bimble IDE (BIDE)
   - **Elie Khalil**: Managing GIT and Mac Ports
-  - **Gikado**: Managing Finances
+  - **DobbyK** : Website Designer
   - **Akshat Raj**: Creating the tutorial video
 
 ## License
