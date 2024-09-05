@@ -1,6 +1,6 @@
 use std::fmt;
 
-
+#[derive(Debug)]
 pub enum Tokens {
     Variable(String, Var),
     Print(String),
@@ -16,10 +16,10 @@ impl TokenList {
     pub fn push(&mut self, token: Tokens) {
         self.0.push(token);
     }
-    pub fn get(&self) -> &Vec<Tokens> {
+
+    pub fn get(&self) -> &[Tokens] {
         &self.0
     }
-    
 }
 
 impl fmt::Display for Tokens {
@@ -41,7 +41,6 @@ impl fmt::Display for Tokens {
 
 impl fmt::Display for TokenList {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        // Collect the string representations of tokens efficiently
         let mut iter = self.0.iter();
         if let Some(first) = iter.next() {
             write!(f, "{}", first)?;
@@ -53,6 +52,7 @@ impl fmt::Display for TokenList {
     }
 }
 
+#[derive(Debug)]
 pub enum Var {
     STR(String),
     INT(i128),
