@@ -30,7 +30,7 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 cp target/x86_64-pc-windows-gnu/release/$PROJECT_NAME.exe ./bin/$PROJECT_NAME-windows.exe
-
+cp ./instructions.txt ./bin
 # Build for macOS
 ##echo "Building for macOS..."
 ##cargo build --release --target x86_64-apple-darwin
