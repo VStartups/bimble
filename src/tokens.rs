@@ -4,6 +4,7 @@ use std::fmt;
 pub enum Tokens {
     Variable(String, Var),
     Print(String),
+    Takein(String),
 }
 
 pub struct TokenList(Vec<Tokens>);
@@ -35,6 +36,9 @@ impl fmt::Display for Tokens {
             Tokens::Print(txt) => {
                 write!(f, "Print:\n╠───── Text => {}", txt)
             }
+            Tokens::Takein(vnm) => {
+                write!(f, "Input:\n╠───── Variable Name => {}", vnm)
+            }
         }
     }
 }
@@ -55,7 +59,7 @@ impl fmt::Display for TokenList {
 #[derive(Debug)]
 pub enum Var {
     STR(String),
-    INT(i128),
+    INT(i64),
     F(f64),
 }
 

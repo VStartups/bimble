@@ -20,7 +20,7 @@ fn parse_value(value: &str) -> Var {
     if trimmed_value.starts_with('"') && trimmed_value.ends_with('"') {
         return Var::STR(trimmed_value[1..trimmed_value.len() - 1].to_string());
     }
-    if let Ok(parsed) = trimmed_value.parse::<i128>() {
+    if let Ok(parsed) = trimmed_value.parse::<i64>() {
         return Var::INT(parsed);
     }
     if let Ok(parsed) = trimmed_value.parse::<f64>() {

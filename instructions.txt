@@ -1,0 +1,32 @@
+Instructions for Installing Visual C++ Redistributable
+
+    Download the Installer:
+        Click on the following link to download the Visual C++ Redistributable installer: https://aka.ms/vs/17/release/vc_redist.x64.exe
+
+    Run the Installer:
+        Find the downloaded file named vc_redist.x64.exe.
+        Double-click the file to start the installation.
+
+    Install the Package:
+        The installer will open with a setup wizard.
+        Read and accept the license agreement.
+        Click "Install" to begin the installation process.
+
+    Wait for Installation to Complete:
+        The installation will run silently in the background.
+        You will not see a progress bar, but the installation will complete automatically.
+
+    Verify Installation:
+        After installation, you can check your installed programs list to ensure it was installed correctly:
+            Open the Control Panel.
+            Go to "Programs and Features" and look for "Microsoft Visual C++ Redistributable."
+
+    Clean Up:
+        After installation, you can delete the installer file to save space.
+        Right-click on vc_redist.x64.exe and select "Delete."
+
+Troubleshooting:
+
+    If you encounter any issues, check for any error messages during installation.
+    Ensure you have administrative rights on your computer.
+    Restart your computer if necessary.

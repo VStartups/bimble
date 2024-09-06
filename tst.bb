@@ -1,3 +1,2 @@
-echoln("Hi and how are you??")
-may i = 12908883
-echoln("$i || $i")
+may age = 16
+echoln("My age is $age")
