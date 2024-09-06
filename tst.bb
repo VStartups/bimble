@@ -1,2 +1,3 @@
-may age = 16
+may age = ""
+takein(age)
 echoln("My age is $age")

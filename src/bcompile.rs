@@ -18,7 +18,7 @@ fn gen_cc(tokens: TokenList) -> String {
     for token in tokens.get() {
         if let Tokens::Variable(nm, ty) = token {
             let var_declaration = match ty {
-                Var::STR(txt) => format!("char {}[{}] = \"{}\";\n", nm, txt.len() + 1, txt),
+                Var::STR(txt) => format!("char {}[{}] = \"{}\";\n", nm,nm.len() + 100, txt),
                 Var::F(f) => format!("double {} = {};\n", nm, f),
                 Var::INT(i) => format!("long long {} = {};\n", nm, i),
             };
@@ -71,7 +71,7 @@ fn gen_cc(tokens: TokenList) -> String {
             cc.push_str(&output);
         }
         else if let Tokens::Takein(nm) = token {
-            cc.push_str(format!("\nscanf({});",nm).as_str());
+            cc.push_str(format!("\nscanf(\"%99s\",{});",nm).as_str());
         }
     }
 
