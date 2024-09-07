@@ -1,9 +1,13 @@
 #include <stdio.h>
 #include <string.h>
-int main(){
 
-return 0;
-}void say(){
+void say(){
 printf("Hello world\n");
 
+}
+
+int main(){
+say();
+
+return 0;
 }

@@ -30,6 +30,7 @@ impl TokenList {
     pub fn get(&self) -> &[Tokens] {
         &self.0
     }
+
     pub fn join_mut(&mut self, other: TokenList) {
         self.0.extend_from_slice(&other.0);
     }
@@ -39,20 +40,20 @@ impl fmt::Display for Tokens {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
             Tokens::FnCall(nm) => {
-                write!(f, "Function Call:\n╠───── Name => {}", nm)
+                write!(f, "Function Call with name: '{}'", nm)
             }
             Tokens::Variable(name, var, usename) => {
                 write!(
                     f,
-                    "Variable:\n╠───── Name => {}\n╠───── Type+Value => {},\n╠───── UseName => {}",
+                    "Variable with name: '{}', type and value: '{}', use name: '{}'",
                     name, var, usename
                 )
             }
             Tokens::Print(txt) => {
-                write!(f, "Print:\n╠───── Text => {}", txt)
+                write!(f, "Print with text: '{}'", txt)
             }
             Tokens::Takein(vnm) => {
-                write!(f, "Input:\n╠───── Variable Name => {}", vnm)
+                write!(f, "Input with variable name: '{}'", vnm)
             }
             Tokens::Func(name, code) => {
                 let code_str = code
@@ -60,11 +61,11 @@ impl fmt::Display for Tokens {
                     .iter()
                     .map(|token| token.to_string()) // Convert each Tokens to String
                     .collect::<Vec<String>>() // Collect as Vec<String>
-                    .join("    \n"); // Join with the desired separator
+                    .join("\n"); // Join with a newline separator
 
                 write!(
                     f,
-                    "Function:\n╠───── Name :  {}\n╠───── Codes : \n   {}",
+                    "Function with name: '{}'\nCode:\n{}",
                     name, code_str
                 )
             }

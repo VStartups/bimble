@@ -5,14 +5,14 @@ use crate::{
     tokens::{TokenList, Tokens},
 };
 
-#[allow(unused)]
 pub fn p_fn(
     code: &str,
-    flist: &mut Vec<String>,
     vrs: &mut Vec<(String, i32)>,
     index: &mut i32,
-) -> (String, TokenList) {
+) -> (String, TokenList, Vec<String>, Vec<(String, i32)>) {
+    println!("Function process called...");
     let code: Vec<&str> = code.split("\n").collect();
+    let mut flist: Vec<String> = Vec::new();
     let mut infn = false;
     let mut fnm = String::new();
     let mut tl = TokenList::new();
@@ -21,7 +21,7 @@ pub fn p_fn(
 
     for ln in &code {
         let ln = ln.trim();
-
+        println!("ln : {:?}",ln);
         if ln.starts_with("ON ") && ln.ends_with("{") {
             fnm = optimize_trim(ln);
 
@@ -35,12 +35,13 @@ pub fn p_fn(
             }
 
             flist.push(fnm.clone());
+            println!("Function list inside func.rs: {:?}", flist);
             infn = true;
         } else if infn {
             if ln.trim() == "}" {
                 infn = false;
                 let func_token = Tokens::Func(fnm.clone(), function_body.clone());
-                tl.push(func_token.clone());
+                tl.push(func_token);
             } else if ln.starts_with("echoln(\"") && ln.ends_with("\")") {
                 let ptxt = p_print(ln, &tl);
                 function_body.push(Tokens::Print(ptxt.clone()));
@@ -63,9 +64,9 @@ pub fn p_fn(
             if !trimmed_line.is_empty() {
                 let fn_name = trimmed_line.split('(').next().unwrap_or("").to_string(); // Extract function name up to the first '('
                 let mut found = false;
-                for i in &mut *flist {
-                    if *i == format!("{}()", trimmed_line) {
-                        tl.push(Tokens::FnCall(i.to_string()));
+                for i in &flist {
+                    if *i == fn_name {
+                        tl.push(Tokens::FnCall(fn_name.clone()));
                         found = true;
                         break;
                     }
@@ -94,10 +95,9 @@ pub fn p_fn(
     if notfound {
         exit(1);
     }
-
-    (fnm, tl)
+    println!("Function name: {:?} and code: {:?}", fnm, tl);
+    (fnm, tl, flist, vrs.to_vec()) // Return the vrs vector as well
 }
-
 fn optimize_trim(s: &str) -> String {
     let mut function_name = String::new();
     let mut inside_parens = false;
