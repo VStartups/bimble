@@ -38,11 +38,12 @@ fn main() -> Result<(), AppError> {
 
     for path in args {
         let path = path.trim();
-        let mut file = File::open(&path).map_err(|_| AppError::FileNotFound(path.to_string()))?;
+        let mut file = File::open(path).map_err(|_| AppError::FileNotFound(path.to_string()))?;
         let mut code = String::new();
         file.read_to_string(&mut code)
             .map_err(|err| AppError::ReadError(path.to_string(), err))?;
         let tokens = gent::gen_token(&code);
+        println!("Tokens:\n {}", tokens);
         let os = env::consts::OS;
 
         //let tokens = TokenList::new(); // Placeholder for actual tokens

@@ -1,6 +1,6 @@
 use crate::tokens::Var;
 
-pub fn pvar(code: &str , vrs : &mut Vec<(String,i32)>) -> (String, Var, String) {
+pub fn pvar(code: &str, vrs: &mut Vec<(String, i32)>) -> (String, Var, String) {
     //let mut vrs : Vec<(String,i32)> /*  (og name : String , counter : i32) */ = Vec::new();
     let code_trimmed = code
         .strip_prefix("may ")
@@ -14,14 +14,14 @@ pub fn pvar(code: &str , vrs : &mut Vec<(String,i32)>) -> (String, Var, String) 
         if i.0 == name {
             i.1 += 1;
             usename = format!("{}_{}", name, i.1);
-            println!("var alr there new name : {}",usename);
+            println!("var alr there new name : {}", usename);
             i.1 += 1;
             break;
         }
     }
-    if usename.is_empty(){
+    if usename.is_empty() {
         usename = name.clone();
-        vrs.push((usename.clone(),0));
+        vrs.push((usename.clone(), 0));
     }
     let value = parts.next().expect("No value found").trim();
 

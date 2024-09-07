@@ -16,7 +16,10 @@ pub fn p_print(code: &str, tl: &TokenList) -> String {
         match c {
             '$' => {
                 if inside_var {
-                    eprintln!("Error: Unexpected '$' inside variable mode. Code: '{}'", code);
+                    eprintln!(
+                        "Error: Unexpected '$' inside variable mode. Code: '{}'",
+                        code
+                    );
                     exit(1);
                 }
                 if !wrd.is_empty() {
@@ -56,7 +59,7 @@ pub fn p_print(code: &str, tl: &TokenList) -> String {
 
 fn process_variable(wrd: &str, tl: &TokenList, result: &mut String, code: &str) {
     if tl.get().iter().any(|token| {
-        if let Tokens::Variable(name, _,_) = token {
+        if let Tokens::Variable(name, _, _) = token {
             *name == wrd
         } else {
             false

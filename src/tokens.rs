@@ -1,13 +1,22 @@
 use std::fmt;
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub enum Tokens {
-    Variable(String, Var,String) /* (varname : String , var : Var , usename : String) */,
+    Variable(String, Var, String), /* (varname : String , var : Var , usename : String) */
     Print(String),
     Takein(String),
+    Func(String, TokenList),
+    FnCall(String), /* Expand for args and more */
 }
 
+#[derive(Debug, Clone)]
 pub struct TokenList(Vec<Tokens>);
+
+impl Default for TokenList {
+    fn default() -> Self {
+        Self::new()
+    }
+}
 
 impl TokenList {
     pub fn new() -> Self {
@@ -21,16 +30,22 @@ impl TokenList {
     pub fn get(&self) -> &[Tokens] {
         &self.0
     }
+    pub fn join_mut(&mut self, other: TokenList) {
+        self.0.extend_from_slice(&other.0);
+    }
 }
 
 impl fmt::Display for Tokens {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
-            Tokens::Variable(name, var , usename ) => {
+            Tokens::FnCall(nm) => {
+                write!(f, "Function Call:\n╠───── Name => {}", nm)
+            }
+            Tokens::Variable(name, var, usename) => {
                 write!(
                     f,
                     "Variable:\n╠───── Name => {}\n╠───── Type+Value => {},\n╠───── UseName => {}",
-                    name, var , usename
+                    name, var, usename
                 )
             }
             Tokens::Print(txt) => {
@@ -38,6 +53,20 @@ impl fmt::Display for Tokens {
             }
             Tokens::Takein(vnm) => {
                 write!(f, "Input:\n╠───── Variable Name => {}", vnm)
+            }
+            Tokens::Func(name, code) => {
+                let code_str = code
+                    .get()
+                    .iter()
+                    .map(|token| token.to_string()) // Convert each Tokens to String
+                    .collect::<Vec<String>>() // Collect as Vec<String>
+                    .join("    \n"); // Join with the desired separator
+
+                write!(
+                    f,
+                    "Function:\n╠───── Name :  {}\n╠───── Codes : \n   {}",
+                    name, code_str
+                )
             }
         }
     }
@@ -56,7 +85,7 @@ impl fmt::Display for TokenList {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub enum Var {
     STR(String),
     INT(i64),

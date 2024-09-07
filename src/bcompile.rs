@@ -10,87 +10,95 @@ use std::{
 use crate::tokens::{TokenList, Tokens, Var};
 
 // Function to generate C code based on tokens
-fn gen_cc(tokens: TokenList) -> String {
+pub fn gen_cc(tokens: TokenList, forf: bool) -> String {
     let mut var_map: HashMap<String, String> = HashMap::new();
-    let mut cc = String::with_capacity(1024); // Preallocate buffer size for better performance
-    cc.push_str("#include <stdio.h>\n#include <string.h>\nint main(){\n");
+    let mut cc = String::new(); // Buffer for main code
+    let mut ccode = String::new(); // Buffer for function code
 
-    // Store variable declarations in a map
-    for token in tokens.get() {
-        if let Tokens::Variable(nm, ty, usename) = token {
-            let var_declaration = match ty {
-                Var::STR(txt) => {
-                    format!("char {}[{}] = \"{}\";\n", usename, usename.len() + 100, txt)
-                }
-                Var::F(f) => format!("double {} = {};\n", usename, f),
-                Var::INT(i) => format!("long long {} = {};\n", usename, i),
-            };
-            var_map.insert(nm.to_string(), var_declaration.clone());
-            cc.push_str(&var_declaration);
-        }
+    if !forf {
+        cc.push_str("#include <stdio.h>\n#include <string.h>\nint main(){\n");
     }
 
-    // Process the tokens for printf
+    // Process tokens
     for token in tokens.get() {
-        if let Tokens::Print(txt) = token {
-            let mut output = String::new();
-            let mut vars_list = Vec::new();
+        match token {
+            Tokens::Variable(nm, ty, usename) => {
+                let var_declaration = match ty {
+                    Var::STR(txt) => {
+                        format!("char {}[{}] = \"{}\";\n", usename, usename.len() + 100, txt)
+                    }
+                    Var::F(f) => format!("double {} = {};\n", usename, f),
+                    Var::INT(i) => format!("long long {} = {};\n", usename, i),
+                };
+                var_map.insert(nm.to_string(), var_declaration.clone());
+                cc.push_str(&var_declaration);
+            }
+            Tokens::Func(fname, code) => {
+                let mut func_code = String::new();
+                func_code.push_str(format!("void {}(){{\n", fname).as_str());
+                func_code.push_str(&gen_cc(code.clone(), true)); // Recursive call for function content
+                func_code.push_str("\n}\n");
+                ccode.push_str(&func_code);
+            }
+            Tokens::FnCall(nm) => {
+                cc.push_str(format!("{}();", nm).as_str());
+            }
+            Tokens::Print(txt) => {
+                let mut output = String::new();
+                let mut vars_list = Vec::new();
 
-            output.push_str("printf(\"");
+                output.push_str("printf(\"");
 
-            let mut prev_word_is_var = false;
-            for word in txt.split_whitespace() {
-                if word.starts_with('$') {
-                    //let var_name = &word[1..];
-                    for i in tokens.get() {
-                        match i {
-                            Tokens::Variable(_nm, _, unm) => {
-                                if let Some(var_declaration) = var_map.get(unm) {
-                                    if var_declaration.contains(" int") {
-                                        vars_list.push(unm.to_string());
-                                        output.push_str(" %i");
-                                    } else if var_declaration.contains("double") {
-                                        vars_list.push(" %f".to_string());
-                                        vars_list.push(unm.to_string());
-                                    } else if var_declaration.contains("char") {
-                                        output.push_str(" %s");
-                                        vars_list.push(unm.to_string());
-                                    }
-                                    prev_word_is_var = true;
-                                }
+                let mut prev_word_is_var = false;
+                for word in txt.split_whitespace() {
+                    if word.starts_with('$') {
+                        let var_name = word.strip_prefix("$").unwrap();
+                        if let Some(var_declaration) = var_map.get(var_name) {
+                            if var_declaration.contains("long long") {
+                                vars_list.push(var_name.to_string());
+                                output.push_str(" %lld");
+                            } else if var_declaration.contains("double") {
+                                vars_list.push(" %f".to_string());
+                                vars_list.push(var_name.to_string());
+                            } else if var_declaration.contains("char") {
+                                output.push_str(" %s");
+                                vars_list.push(var_name.to_string());
                             }
-                            _ => continue
+                            prev_word_is_var = true;
                         }
+                    } else {
+                        if prev_word_is_var || !output.ends_with('"') {
+                            output.push(' ');
+                        }
+                        output.push_str(word);
+                        prev_word_is_var = false;
                     }
-                } else {
-                    if prev_word_is_var || !output.ends_with('"') {
-                        output.push(' ');
-                    }
-                    output.push_str(word);
-                    prev_word_is_var = false;
                 }
-            }
 
-            output.push_str("\\n\"");
+                output.push_str("\\n\"");
 
-            if !vars_list.is_empty() {
-                output.push_str(", ");
-                output.push_str(&vars_list.join(", "));
+                if !vars_list.is_empty() {
+                    output.push_str(", ");
+                    output.push_str(&vars_list.join(", "));
+                }
+                output.push_str(");\n");
+                cc.push_str(&output);
             }
-            output.push_str(");\n");
-            cc.push_str(&output);
-        } else if let Tokens::Takein(nm) = token {
-            cc.push_str(
-                format!(
-                    "\nfgets({}, sizeof({}), stdin);\n{}[strcspn({}, \"\\n\")] = 0;",
+            Tokens::Takein(nm) => {
+                let takein_code = format!(
+                    "fgets({}, sizeof({}), stdin);\n{}[strcspn({}, \"\\n\")] = 0;\n",
                     nm, nm, nm, nm
-                )
-                .as_str(),
-            );
+                );
+                cc.push_str(&takein_code);
+            }
         }
     }
 
-    cc.push_str("\nreturn 0;\n}");
+    if !forf {
+        cc.push_str("\nreturn 0;\n}");
+    }
+    cc.push_str(&ccode);
+
     cc
 }
 
@@ -98,8 +106,7 @@ fn gen_cc(tokens: TokenList) -> String {
 pub fn bc_gcc(tokens: TokenList) {
     check_gcc();
 
-    let c_code = gen_cc(tokens);
-
+    let c_code = gen_cc(tokens, false);
     let mut cfile = File::create("t.c").unwrap_or_else(|_| {
         eprintln!("Unable to create 't.c'. Compilation failed.");
         exit(1);
@@ -117,8 +124,7 @@ pub fn bc_gcc(tokens: TokenList) {
 pub fn bc_clang(tokens: TokenList) {
     check_clang();
 
-    let c_code = gen_cc(tokens);
-
+    let c_code = gen_cc(tokens, false);
     let mut cfile = File::create("t.c").unwrap_or_else(|_| {
         eprintln!("Unable to create 't.c'. Compilation failed.");
         exit(1);
@@ -163,7 +169,6 @@ fn check_compiler(compiler: &str) {
 }
 
 fn compile(compiler: &str) {
-    // Create a spinner to show progress
     let pb = ProgressBar::new_spinner();
     pb.set_message("Compiling...");
 
@@ -181,15 +186,12 @@ fn compile(compiler: &str) {
             exit(1);
         });
 
-    // Show spinner while compiling
     pb.enable_steady_tick(Duration::from_millis(50));
     while !compile_cmd.status.success() {
-        // Sleep for a short duration to avoid busy-waiting
         std::thread::sleep(Duration::from_millis(100));
     }
     pb.finish_with_message("Compilation complete.");
 
-    // Check if the compilation was successful
     if !compile_cmd.status.success() {
         eprintln!(
             "Compilation failed with {}: {}",
@@ -199,8 +201,6 @@ fn compile(compiler: &str) {
         exit(1);
     }
 
-    // Link the object file to create the final executable
-    pb.set_message("Linking...");
     let link_cmd = Command::new(compiler)
         .arg("t.o")
         .arg("-o")
@@ -211,15 +211,13 @@ fn compile(compiler: &str) {
             exit(1);
         });
 
-    // Show spinner while linking
+    pb.set_message("Linking...");
     pb.enable_steady_tick(Duration::from_millis(50));
     while !link_cmd.status.success() {
-        // Sleep for a short duration to avoid busy-waiting
         std::thread::sleep(Duration::from_millis(100));
     }
     pb.finish_with_message("Linking complete.");
 
-    // Check if the linking was successful
     if !link_cmd.status.success() {
         eprintln!(
             "Linking failed with {}: {}",
@@ -231,8 +229,7 @@ fn compile(compiler: &str) {
 
     println!("Compilation and linking successful. Final executable created.");
 
-    // Remove the C file after compilation
-    //TODO : Uncomment this line when releasing!
+    //TODO: Uncomment the lines to Remove the C file after compilation
     // if let Err(e) = fs::remove_file("t.c") {
     //     eprintln!("Failed to delete 't.c': {}", e);
     //     exit(1);
