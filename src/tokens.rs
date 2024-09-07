@@ -2,7 +2,7 @@ use std::fmt;
 
 #[derive(Debug)]
 pub enum Tokens {
-    Variable(String, Var),
+    Variable(String, Var,String) /* (varname : String , var : Var , usename : String) */,
     Print(String),
     Takein(String),
 }
@@ -26,11 +26,11 @@ impl TokenList {
 impl fmt::Display for Tokens {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
-            Tokens::Variable(name, var) => {
+            Tokens::Variable(name, var , usename ) => {
                 write!(
                     f,
-                    "Variable:\n╠───── Name => {}\n╠───── Type+Value => {}",
-                    name, var
+                    "Variable:\n╠───── Name => {}\n╠───── Type+Value => {},\n╠───── UseName => {}",
+                    name, var , usename
                 )
             }
             Tokens::Print(txt) => {

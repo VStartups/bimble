@@ -6,7 +6,7 @@ pub fn pin(code : &str , tl : &TokenList) -> (bool,String){
     println!("Debug => NM : {}",nm);
     for i in tl.get(){
         match i {
-            Tokens::Variable(nmm, _) => {
+            Tokens::Variable(nmm,_ ,_) => {
                 if nmm == nm{
                     return (true,nmm.to_string());
                 }

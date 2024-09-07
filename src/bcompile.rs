@@ -17,11 +17,13 @@ fn gen_cc(tokens: TokenList) -> String {
 
     // Store variable declarations in a map
     for token in tokens.get() {
-        if let Tokens::Variable(nm, ty) = token {
+        if let Tokens::Variable(nm, ty, usename) = token {
             let var_declaration = match ty {
-                Var::STR(txt) => format!("char {}[{}] = \"{}\";\n", nm, nm.len() + 100, txt),
-                Var::F(f) => format!("double {} = {};\n", nm, f),
-                Var::INT(i) => format!("long long {} = {};\n", nm, i),
+                Var::STR(txt) => {
+                    format!("char {}[{}] = \"{}\";\n", usename, usename.len() + 100, txt)
+                }
+                Var::F(f) => format!("double {} = {};\n", usename, f),
+                Var::INT(i) => format!("long long {} = {};\n", usename, i),
             };
             var_map.insert(nm.to_string(), var_declaration.clone());
             cc.push_str(&var_declaration);
@@ -39,19 +41,26 @@ fn gen_cc(tokens: TokenList) -> String {
             let mut prev_word_is_var = false;
             for word in txt.split_whitespace() {
                 if word.starts_with('$') {
-                    let var_name = &word[1..];
-                    if let Some(var_declaration) = var_map.get(var_name) {
-                        if var_declaration.contains(" int") {
-                            vars_list.push(var_name.to_string());
-                            output.push_str(" %i");
-                        } else if var_declaration.contains("double") {
-                            vars_list.push(" %f".to_string());
-                            vars_list.push(var_name.to_string());
-                        } else if var_declaration.contains("char") {
-                            output.push_str(" %s");
-                            vars_list.push(var_name.to_string());
+                    //let var_name = &word[1..];
+                    for i in tokens.get() {
+                        match i {
+                            Tokens::Variable(_nm, _, unm) => {
+                                if let Some(var_declaration) = var_map.get(unm) {
+                                    if var_declaration.contains(" int") {
+                                        vars_list.push(unm.to_string());
+                                        output.push_str(" %i");
+                                    } else if var_declaration.contains("double") {
+                                        vars_list.push(" %f".to_string());
+                                        vars_list.push(unm.to_string());
+                                    } else if var_declaration.contains("char") {
+                                        output.push_str(" %s");
+                                        vars_list.push(unm.to_string());
+                                    }
+                                    prev_word_is_var = true;
+                                }
+                            }
+                            _ => continue
                         }
-                        prev_word_is_var = true;
                     }
                 } else {
                     if prev_word_is_var || !output.ends_with('"') {
@@ -61,7 +70,7 @@ fn gen_cc(tokens: TokenList) -> String {
                     prev_word_is_var = false;
                 }
             }
- 
+
             output.push_str("\\n\"");
 
             if !vars_list.is_empty() {

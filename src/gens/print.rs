@@ -56,7 +56,7 @@ pub fn p_print(code: &str, tl: &TokenList) -> String {
 
 fn process_variable(wrd: &str, tl: &TokenList, result: &mut String, code: &str) {
     if tl.get().iter().any(|token| {
-        if let Tokens::Variable(name, _) = token {
+        if let Tokens::Variable(name, _,_) = token {
             *name == wrd
         } else {
             false
