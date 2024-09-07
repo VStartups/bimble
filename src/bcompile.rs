@@ -1,10 +1,11 @@
+use indicatif::ProgressBar;
 use std::{
     collections::HashMap,
     fs::{self, File},
     io::Write,
-    process::{exit, Command}, time::Duration,
+    process::{exit, Command},
+    time::Duration,
 };
-use indicatif::ProgressBar;
 
 use crate::tokens::{TokenList, Tokens, Var};
 
@@ -18,7 +19,7 @@ fn gen_cc(tokens: TokenList) -> String {
     for token in tokens.get() {
         if let Tokens::Variable(nm, ty) = token {
             let var_declaration = match ty {
-                Var::STR(txt) => format!("char {}[{}] = \"{}\";\n", nm,nm.len() + 100, txt),
+                Var::STR(txt) => format!("char {}[{}] = \"{}\";\n", nm, nm.len() + 100, txt),
                 Var::F(f) => format!("double {} = {};\n", nm, f),
                 Var::INT(i) => format!("long long {} = {};\n", nm, i),
             };
@@ -60,7 +61,7 @@ fn gen_cc(tokens: TokenList) -> String {
                     prev_word_is_var = false;
                 }
             }
-
+ 
             output.push_str("\\n\"");
 
             if !vars_list.is_empty() {
@@ -69,9 +70,14 @@ fn gen_cc(tokens: TokenList) -> String {
             }
             output.push_str(");\n");
             cc.push_str(&output);
-        }
-        else if let Tokens::Takein(nm) = token {
-            cc.push_str(format!("\nscanf(\"%99s\",{});",nm).as_str());
+        } else if let Tokens::Takein(nm) = token {
+            cc.push_str(
+                format!(
+                    "\nfgets({}, sizeof({}), stdin);\n{}[strcspn({}, \"\\n\")] = 0;",
+                    nm, nm, nm, nm
+                )
+                .as_str(),
+            );
         }
     }
 
@@ -131,12 +137,18 @@ fn check_compiler(compiler: &str) {
         .arg("--version")
         .output()
         .unwrap_or_else(|_| {
-            eprintln!("{} is not installed or not found in the system's PATH.", compiler);
+            eprintln!(
+                "{} is not installed or not found in the system's PATH.",
+                compiler
+            );
             exit(1);
         });
 
     if !out.status.success() {
-        eprintln!("{} is installed, but there was an issue running the command.", compiler);
+        eprintln!(
+            "{} is installed, but there was an issue running the command.",
+            compiler
+        );
         exit(1);
     }
 }
@@ -225,4 +237,3 @@ fn compile(compiler: &str) {
 
     println!("Intermediate files 't.c' and 't.o' deleted.");
 }
-

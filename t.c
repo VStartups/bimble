@@ -3,7 +3,8 @@
 int main(){
 char age[103] = "";
 
-scanf("%99s",age);printf("My age is %s\n", age);
+fgets(age, sizeof(age), stdin);
+age[strcspn(age, "\n")] = 0;printf("My age is %s\n", age);
 
 return 0;
 }
