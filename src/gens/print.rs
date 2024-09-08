@@ -1,5 +1,5 @@
-use crate::tokens::{TokenList, Tokens};
 use std::process::exit;
+use crate::tokens::{TokenList, Tokens};
 
 pub fn p_print(code: &str, tl: &TokenList) -> String {
     if !code.starts_with("echoln(\"") || !code.ends_with("\")") {
@@ -7,10 +7,12 @@ pub fn p_print(code: &str, tl: &TokenList) -> String {
         exit(1);
     }
 
-    let txt = &code["echoln(\"".len()..code.len() - 2];
+    let txt = &code["echoln(\"".len()..code.len() - 2]; // Extract the actual text inside echoln
     let mut result = String::with_capacity(txt.len()); // Preallocate capacity
-    let mut wrd = String::new();
+    let mut variable_name_caught = String::new();
     let mut inside_var = false;
+
+    println!("Processing text: '{}'", txt);
 
     for c in txt.chars() {
         match c {
@@ -22,52 +24,64 @@ pub fn p_print(code: &str, tl: &TokenList) -> String {
                     );
                     exit(1);
                 }
-                if !wrd.is_empty() {
-                    process_variable(&wrd, tl, &mut result, code);
-                    wrd.clear();
+                if !variable_name_caught.is_empty() {
+                    println!("Flushing literal text: '{}'", variable_name_caught);
+                    result.push_str(&variable_name_caught); // Flush any literal text
+                    variable_name_caught.clear();
                 }
-                inside_var = true;
+                result.push(c); // Add the dollar sign
+                inside_var = true; // Start processing a variable
+                println!("Entering variable mode with '$'");
             }
             ' ' | ';' | ',' | '.' | ':' => {
                 if inside_var {
-                    process_variable(&wrd, tl, &mut result, code);
-                    wrd.clear();
+                    println!("Processing variable: '{}'", variable_name_caught);
+                    process_variable(&variable_name_caught, tl, &mut result, code);
+                    variable_name_caught.clear();
                     inside_var = false;
                 }
                 result.push(c);
+                println!("Appending special character or space: '{}'", c);
             }
             _ if inside_var => {
-                wrd.push(c);
+                variable_name_caught.push(c); // Continue collecting the variable name
+                println!("Collecting variable character: '{}'", c);
             }
             _ => {
                 if inside_var {
-                    process_variable(&wrd, tl, &mut result, code);
-                    wrd.clear();
+                    println!("Processing variable before appending character: '{}'", variable_name_caught);
+                    process_variable(&variable_name_caught, tl, &mut result, code);
+                    variable_name_caught.clear();
                     inside_var = false;
                 }
-                result.push(c);
+                result.push(c); // Collect literal text
+                println!("Appending literal character: '{}'", c);
             }
         }
     }
 
     if inside_var {
-        process_variable(&wrd, tl, &mut result, code);
+        println!("Processing remaining variable: '{}'", variable_name_caught);
+        process_variable(&variable_name_caught, tl, &mut result, code);
     }
 
     result
 }
 
-fn process_variable(wrd: &str, tl: &TokenList, result: &mut String, code: &str) {
+fn process_variable(variable_name_caught: &str, tl: &TokenList, result: &mut String, code: &str) {
+    let variable_name = &variable_name_caught[..]; // Remove the '$' sign
+    println!("Processing variable name: '{}'", variable_name);
     if tl.get().iter().any(|token| {
         if let Tokens::Variable(name, _, _) = token {
-            *name == wrd
+            *name == variable_name
         } else {
             false
         }
     }) {
-        result.push_str(&format!("${} ", wrd));
+        result.push_str(&format!("{}", variable_name)); // Add the variable name to the result
+        println!("Variable '{}' found and added to result", variable_name);
     } else {
-        eprintln!("Variable '{}' not found. Code: \n{}", wrd, code);
+        eprintln!("Variable '{}' not found. Code: \n{}", variable_name, code);
         exit(1);
     }
 }

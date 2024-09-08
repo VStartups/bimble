@@ -1,15 +1,13 @@
 pub mod bcompile;
-pub mod gens;
-pub mod gent;
 pub mod tokens;
+pub mod gent;
+pub mod gens;
 
 use std::{
-    env, fmt,
-    fs::File,
-    io::{self, Read},
+    env, fmt, fs::File, io::{self, Read}
 };
 
-use bcompile::{bc_clang, bc_gcc};
+use bcompile::{check_compiler, compile_code};
 
 #[derive(Debug)]
 enum AppError {
@@ -17,7 +15,7 @@ enum AppError {
     ReadError(String, io::Error),
 }
 
-impl fmt::Display for AppError {
+impl std::fmt::Display for AppError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
             AppError::FileNotFound(path) => write!(f, "Error: File not found - '{}'", path),
@@ -43,16 +41,19 @@ fn main() -> Result<(), AppError> {
         file.read_to_string(&mut code)
             .map_err(|err| AppError::ReadError(path.to_string(), err))?;
         let tokens = gent::gen_token(&code);
-        println!("Tokens:\n {}", tokens);
-        let os = env::consts::OS;
+        //println!("Tokens:\n {}", tokens);
 
-        //let tokens = TokenList::new(); // Placeholder for actual tokens
-        match os {
-            "windows" => bc_clang(tokens),
-            "macos" | "linux" => bc_gcc(tokens),
-            _ => eprintln!("Unsupported operating system: {}", os),
+        match env::consts::OS {
+            "windows" => {
+                check_compiler("clang");
+                compile_code(tokens, "clang");
+            },
+            "macos" | "linux" => {
+                check_compiler("gcc");
+                compile_code(tokens, "gcc");
+            },
+            _ => eprintln!("Unsupported operating system: {}", env::consts::OS),
         }
-        //bc_gcc(tokens);
     }
 
     Ok(())

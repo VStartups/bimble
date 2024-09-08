@@ -14,7 +14,7 @@ pub fn pvar(code: &str, vrs: &mut Vec<(String, i32)>) -> (String, Var, String) {
         if i.0 == name {
             i.1 += 1;
             usename = format!("{}_{}", name, i.1);
-            println!("var alr there new name : {}", usename);
+            //println!("var alr there new name : {}", usename);
             i.1 += 1;
             break;
         }

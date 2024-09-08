@@ -10,7 +10,7 @@ indicatif = "0.17.8"
 [profile.release]
 lto = true
 opt-level = "s"
-debug = false
+debug = true
 strip = true
 debug-assertions = false
 overflow-checks = false

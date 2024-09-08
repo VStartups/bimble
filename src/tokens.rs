@@ -2,11 +2,11 @@ use std::fmt;
 
 #[derive(Debug, Clone)]
 pub enum Tokens {
-    Variable(String, Var, String), /* (varname : String , var : Var , usename : String) */
+    Variable(String, Var, String),
     Print(String),
     Takein(String),
     Func(String, TokenList),
-    FnCall(String), /* Expand for args and more */
+    FnCall(String),
 }
 
 #[derive(Debug, Clone)]
@@ -39,35 +39,23 @@ impl TokenList {
 impl fmt::Display for Tokens {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
-            Tokens::FnCall(nm) => {
-                write!(f, "Function Call with name: '{}'", nm)
-            }
-            Tokens::Variable(name, var, usename) => {
-                write!(
-                    f,
-                    "Variable with name: '{}', type and value: '{}', use name: '{}'",
-                    name, var, usename
-                )
-            }
-            Tokens::Print(txt) => {
-                write!(f, "Print with text: '{}'", txt)
-            }
-            Tokens::Takein(vnm) => {
-                write!(f, "Input with variable name: '{}'", vnm)
-            }
+            Tokens::FnCall(nm) => write!(f, "Function Call with name: '{}'", nm),
+            Tokens::Variable(name, var, usename) => write!(
+                f,
+                "Variable with name: '{}', type and value: '{}', use name: '{}'",
+                name, var, usename
+            ),
+            Tokens::Print(txt) => write!(f, "Print with text: '{}'", txt),
+            Tokens::Takein(vnm) => write!(f, "Input with variable name: '{}'", vnm),
             Tokens::Func(name, code) => {
                 let code_str = code
                     .get()
                     .iter()
-                    .map(|token| token.to_string()) // Convert each Tokens to String
-                    .collect::<Vec<String>>() // Collect as Vec<String>
-                    .join("\n"); // Join with a newline separator
+                    .map(|token| token.to_string())
+                    .collect::<Vec<String>>()
+                    .join("\n");
 
-                write!(
-                    f,
-                    "Function with name: '{}'\nCode:\n{}",
-                    name, code_str
-                )
+                write!(f, "Function with name: '{}'\nCode:\n{}", name, code_str)
             }
         }
     }

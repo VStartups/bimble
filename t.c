@@ -1,13 +1,12 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
-void say(){
-printf("Hello world\n");
-
-}
 
 int main(){
-say();
+long long age = 90;
+long long age_1 = 911;
+long long age_3 = 9111;
 
 return 0;
 }

@@ -10,117 +10,62 @@ pub fn p_fn(
     vrs: &mut Vec<(String, i32)>,
     index: &mut i32,
 ) -> (String, TokenList, Vec<String>, Vec<(String, i32)>) {
-    println!("Function process called...");
-    let code: Vec<&str> = code.split("\n").collect();
-    let mut flist: Vec<String> = Vec::new();
-    let mut infn = false;
-    let mut fnm = String::new();
+    let lines: Vec<&str> = code.lines().collect();
+    let mut flist = Vec::new();
     let mut tl = TokenList::new();
-    let mut function_body = TokenList::new(); // TokenList for the function's content
-    let mut undefined_fn_calls: Vec<(String, usize, String)> = Vec::new(); // Track undefined function calls
+    let mut function_body = TokenList::new();
+    let mut infn = false;
+    let mut fn_name = String::new();
 
-    for ln in &code {
+    for ln in &lines {
         let ln = ln.trim();
-        println!("ln : {:?}",ln);
         if ln.starts_with("ON ") && ln.ends_with("{") {
-            fnm = optimize_trim(ln);
-
-            if flist.contains(&fnm) {
-                eprintln!(
-                    "Error: Function '{}' is already defined. Code block: {}",
-                    fnm,
-                    &code.join("\n")
-                );
+            fn_name = extract_fn_name(ln);
+            if flist.contains(&fn_name) {
+                eprintln!("Error: Function '{}' is already defined.", fn_name);
                 exit(1);
             }
-
-            flist.push(fnm.clone());
-            println!("Function list inside func.rs: {:?}", flist);
+            flist.push(fn_name.clone());
             infn = true;
         } else if infn {
-            if ln.trim() == "}" {
+            if ln == "}" {
                 infn = false;
-                let func_token = Tokens::Func(fnm.clone(), function_body.clone());
-                tl.push(func_token);
-            } else if ln.starts_with("echoln(\"") && ln.ends_with("\")") {
-                let ptxt = p_print(ln, &tl);
-                function_body.push(Tokens::Print(ptxt.clone()));
-            } else if ln.starts_with("may ") {
-                let (name, var, usename) = pvar(ln, vrs);
-                function_body.push(Tokens::Variable(name.clone(), var.clone(), usename.clone()));
-            } else if ln.starts_with("takein(") && ln.ends_with(")") {
-                let g = pin(ln, &tl);
-                if !g.0 {
-                    eprintln!(
-                        "Error: Variable '{}' used in takein statement is not defined. Line: {}",
-                        g.1, ln
-                    );
-                    exit(1);
-                }
-                function_body.push(Tokens::Takein(g.1.clone()));
+                tl.push(Tokens::Func(fn_name.clone(), function_body.clone()));
+            } else {
+                process_function_body(ln, &mut function_body, vrs);
             }
         } else {
-            let trimmed_line = ln.trim();
-            if !trimmed_line.is_empty() {
-                let fn_name = trimmed_line.split('(').next().unwrap_or("").to_string(); // Extract function name up to the first '('
-                let mut found = false;
-                for i in &flist {
-                    if *i == fn_name {
-                        tl.push(Tokens::FnCall(fn_name.clone()));
-                        found = true;
-                        break;
-                    }
-                }
-                if !found {
-                    undefined_fn_calls.push((fn_name, *index as usize, ln.to_string()));
-                }
-            }
+            process_line(ln, &mut tl, vrs, index);
         }
 
         *index += 1;
     }
 
-    // After processing all lines, handle undefined function calls
-    let mut notfound = false;
-    for (fn_name, line_index, full_line) in undefined_fn_calls {
-        if !flist.contains(&fn_name) {
-            eprintln!(
-                "Error: Undefined function call '{}' at line {}: '{}'",
-                fn_name, line_index, full_line
-            );
-            notfound = true;
-        }
-    }
-
-    if notfound {
-        exit(1);
-    }
-    println!("Function name: {:?} and code: {:?}", fnm, tl);
-    (fnm, tl, flist, vrs.to_vec()) // Return the vrs vector as well
+    (fn_name, tl, flist, vrs.to_vec())
 }
-fn optimize_trim(s: &str) -> String {
-    let mut function_name = String::new();
-    let mut inside_parens = false;
 
-    for c in s.chars() {
-        if c == '(' {
-            inside_parens = true;
-        } else if c == ')' {
-            inside_parens = false;
-        } else if !inside_parens && c != ' ' {
-            if function_name != "ON" {
-                if c != '{' {
-                    function_name.push(c);
-                }
-            } else if function_name == "ON" {
-                function_name.clear();
-
-                if c != '{' {
-                    function_name.push(c);
-                }
-            }
+fn process_function_body(ln: &str, function_body: &mut TokenList, vrs: &mut Vec<(String, i32)>) {
+    if ln.starts_with("echoln(\"") && ln.ends_with("\")") {
+        let ptxt = p_print(ln, &function_body);
+        function_body.push(Tokens::Print(ptxt));
+    } else if ln.starts_with("may ") {
+        let (name, var, usename) = pvar(ln, vrs);
+        function_body.push(Tokens::Variable(name.clone(), var.clone(), usename.clone()));
+    } else if ln.starts_with("takein(") && ln.ends_with(")") {
+        let g = pin(ln, &function_body);
+        if g.0 {
+            function_body.push(Tokens::Takein(g.1.clone()));
         }
     }
+}
 
-    function_name.trim().to_string()
+fn process_line(ln: &str, tl: &mut TokenList, vrs: &mut Vec<(String, i32)>, _index: &mut i32) {
+    if ln.starts_with("may ") {
+        let (name, var, usename) = pvar(ln, vrs);
+        tl.push(Tokens::Variable(name.clone(), var.clone(), usename.clone()));
+    }
+}
+
+fn extract_fn_name(ln: &str) -> String {
+    ln.split_whitespace().nth(1).unwrap_or_default().to_string()
 }

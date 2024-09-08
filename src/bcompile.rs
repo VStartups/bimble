@@ -1,3 +1,4 @@
+use crate::tokens::{TokenList, Tokens, Var};
 use indicatif::ProgressBar;
 use std::{
     collections::HashMap,
@@ -7,106 +8,116 @@ use std::{
     time::Duration,
 };
 
-use crate::tokens::{TokenList, Tokens, Var};
-
-// Generates general C code including the main function and headers
 pub fn gen_cc(tokens: TokenList) -> String {
-    let mut var_map = HashMap::new();
-    let includes = "#include <stdio.h>\n#include <string.h>\n".to_string();
+    let mut vars = Vec::new();
+    let mut var_names_count = HashMap::new();
+    let includes = "#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\n".to_string();
     let mut func_defs = String::new();
     let mut main_code = String::new();
-    let mut current_func = None;
+    let mut updated_tokens = Vec::new();
 
     for token in tokens.get() {
         match token {
             Tokens::Variable(name, ty, use_name) => {
+                let unique_use_name = get_unique_use_name(&use_name, &mut var_names_count);
+                updated_tokens.push(Tokens::Variable(
+                    name.clone(),
+                    ty.clone(),
+                    unique_use_name.clone(),
+                ));
+
+                vars.push((name.clone(), ty.clone(), unique_use_name.clone()));
+
                 let declaration = match ty {
-                    Var::STR(txt) => format!("char {}[{}] = \"{}\";\n", use_name, use_name.len() + 100, txt),
-                    Var::F(f) => format!("double {} = {};\n", use_name, f),
-                    Var::INT(i) => format!("long long {} = {};\n", use_name, i),
+                    Var::STR(s) => format!(
+                        "char {}[{}] = \"{}\";\n",
+                        unique_use_name,
+                        unique_use_name.len() + 100,
+                        s
+                    ),
+                    Var::F(f) => format!("double {} = {};\n", unique_use_name, f),
+                    Var::INT(i) => format!("long long {} = {};\n", unique_use_name, i),
                 };
-                var_map.insert(name.to_string(), declaration.clone());
-                if current_func.is_none() {
-                    main_code.push_str(&declaration);
-                }
+                main_code.push_str(&declaration);
             }
             Tokens::Func(name, code) => {
-                let nested_code = gen_fc(code.clone());
-                let func_code = format!("void {}(){{\n{}\n}}\n", name, nested_code);
-                func_defs.push_str(&func_code);
-
-                if current_func.is_none() {
-                    current_func = Some(name.clone());
-                }
+                let nested_code = gen_fc(code.clone(), &vars, &mut var_names_count);
+                func_defs.push_str(&format!("void {}(){{\n{}\n}}\n", name, nested_code));
             }
             Tokens::FnCall(name) => {
-                if let Some(ref func_name) = current_func {
-                    if func_name == name {
-                        main_code.push_str(format!("{}();\n", name).as_str());
-                    }
-                }
+                main_code.push_str(&format!("{}();\n", name));
             }
             Tokens::Print(text) => {
-                let print_code = generate_print_code(&text, &var_map);
-                if let Some(_) = current_func {
-                    func_defs.push_str(&print_code);
-                } else {
-                    main_code.push_str(&print_code);
-                }
+                let print_code = generate_print_code(&text, &vars);
+                main_code.push_str(&print_code);
             }
             Tokens::Takein(name) => {
                 let input_code = format!(
                     "fgets({}, sizeof({}), stdin);\n{}[strcspn({}, \"\\n\")] = 0;\n",
                     name, name, name, name
                 );
-                if let Some(_) = current_func {
-                    func_defs.push_str(&input_code);
-                } else {
-                    main_code.push_str(&input_code);
-                }
+                main_code.push_str(&input_code);
             }
         }
     }
 
-    format!(
+    let code = format!(
         "{}\n{}\nint main(){{\n{}\nreturn 0;\n}}",
         includes, func_defs, main_code
-    )
+    );
+    code
 }
-
-// Generates C code for functions only
-pub fn gen_fc(tokens: TokenList) -> String {
+#[allow(unused)]
+pub fn gen_fc(
+    tokens: TokenList,
+    vars: &[(String, Var, String)],
+    var_names_count: &mut HashMap<String, usize>,
+) -> String {
     let mut func_code = String::new();
-    let mut current_func = None;
+    let mut updated_vars: Vec<(String, Var, String)> = Vec::new();
+    let mut declvrs = Vec::new();
 
     for token in tokens.get() {
         match token {
-            Tokens::Variable(_name, ty, use_name) => {
-                let declaration = match ty {
-                    Var::STR(txt) => format!("char {}[{}] = \"{}\";\n", use_name, use_name.len() + 100, txt),
-                    Var::F(f) => format!("double {} = {};\n", use_name, f),
-                    Var::INT(i) => format!("long long {} = {};\n", use_name, i),
-                };
-                func_code.push_str(&declaration);
-            }
-            Tokens::Func(name, code) => {
-                let nested_code = gen_fc(code.clone());
-                let func_code_snippet = format!("void {}(){{\n{}\n}}\n", name, nested_code);
-                func_code.push_str(&func_code_snippet);
-
-                if current_func.is_none() {
-                    current_func = Some(name.clone());
+            Tokens::Variable(name, ty, use_name) => {
+                if declvrs.contains(use_name) {
+                    func_code.push_str(format!("\nfree({});", use_name).as_str());
                 }
-            }
-            Tokens::FnCall(name) => {
-                if let Some(ref func_name) = current_func {
-                    if func_name == name {
-                        func_code.push_str(format!("{}();\n", name).as_str());
+
+                let unique_use_name = get_unique_use_name(&use_name, var_names_count);
+
+                let mut found = false;
+
+                for var in &mut updated_vars {
+                    if var.0 == *name {
+                        var.2 = unique_use_name.clone();
+                        found = true;
+                        break;
                     }
                 }
+
+                if !found {
+                    updated_vars.push((name.clone(), ty.clone(), unique_use_name.clone()));
+                }
+
+                let declaration = match ty {
+                    Var::STR(s) => format!(
+                        "char {}[{}] = \"{}\";\n",
+                        unique_use_name,
+                        unique_use_name.len() + 100,
+                        s
+                    ),
+                    Var::F(f) => format!("double {} = {};\n", unique_use_name, f),
+                    Var::INT(i) => format!("long long {} = {};\n", unique_use_name, i),
+                };
+                func_code.push_str(&declaration);
+                declvrs.push(use_name.to_string());
+            }
+            Tokens::FnCall(name) => {
+                func_code.push_str(&format!("{}();\n", name));
             }
             Tokens::Print(text) => {
-                let print_code = generate_print_code(&text, &HashMap::new()); // No vars in function-only code
+                let print_code = generate_print_code(&text, &updated_vars);
                 func_code.push_str(&print_code);
             }
             Tokens::Takein(name) => {
@@ -116,64 +127,84 @@ pub fn gen_fc(tokens: TokenList) -> String {
                 );
                 func_code.push_str(&input_code);
             }
+            _ => continue,
         }
     }
 
     func_code
 }
 
-fn generate_print_code(text: &str, var_map: &HashMap<String, String>) -> String {
-    let mut output = String::new();
-    let mut vars = Vec::new();
-    output.push_str("printf(\"");
+fn get_unique_use_name(base_name: &str, names_count: &mut HashMap<String, usize>) -> String {
+    let count = names_count.entry(base_name.to_string()).or_insert(0);
+    *count += 1;
+    if *count == 1 {
+        base_name.to_string()
+    } else {
+        format!("{}_{}", base_name, *count - 1)
+    }
+}
 
-    let mut prev_was_var = false;
-    for word in text.split_whitespace() {
-        if word.starts_with('$') {
-            let var_name = word.strip_prefix("$").unwrap();
-            if let Some(var_decl) = var_map.get(var_name) {
-                if var_decl.contains("long long") {
-                    vars.push(var_name.to_string());
-                    output.push_str(" %lld");
-                } else if var_decl.contains("double") {
-                    vars.push(" %f".to_string());
-                    vars.push(var_name.to_string());
-                } else if var_decl.contains("char") {
-                    output.push_str(" %s");
-                    vars.push(var_name.to_string());
+const SPECIAL_SYMBOLS: [char; 33] = [
+    '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_', '=', '+', '{', '}', '[', ']', ':',
+    ';', '"', '\'', '<', '>', ',', '.', '/', '?', '|', '\\', '~', '`', ' ',
+];
+
+fn generate_print_code(text: &str, vars: &[(String, Var, String)]) -> String {
+    let mut output = String::new();
+    output.push_str("printf(\"");
+    let mut inv = false;
+    let mut vrwrd = String::new();
+    let mut vrs = Vec::new();
+    for i in text.chars() {
+        if i == '$' && !inv {
+            inv = true;
+        } else if inv && !SPECIAL_SYMBOLS.contains(&i) {
+            vrwrd.push(i);
+        } else if inv && SPECIAL_SYMBOLS.contains(&i) {
+            inv = false;
+            for v in vars {
+                if v.0 == vrwrd {
+                    vrs.push(v.2.clone());
+                    match v.1 {
+                        Var::INT(_) => {
+                            output.push_str(format!("{}%lld", i).as_str());
+                        }
+                        Var::STR(_) => {
+                            output.push_str(format!("{}%s", i).as_str());
+                        }
+                        Var::F(_) => {
+                            output.push_str(format!("{}%f", i).as_str());
+                        }
+                    }
                 }
-                prev_was_var = true;
             }
         } else {
-            if prev_was_var || !output.ends_with('"') {
-                output.push(' ');
+            if !inv {
+                output.push(i);
             }
-            output.push_str(word);
-            prev_was_var = false;
         }
     }
-
-    output.push_str("\\n\"");
-    if !vars.is_empty() {
-        output.push_str(", ");
-        output.push_str(&vars.join(", "));
+    for v in vars {
+        if v.0 == vrwrd {
+            vrs.push(v.2.clone());
+            match v.1 {
+                Var::INT(_) => {
+                    output.push_str(format!("%lld").as_str());
+                }
+                Var::STR(_) => {
+                    output.push_str(format!("%s").as_str());
+                }
+                Var::F(_) => {
+                    output.push_str(format!("%f").as_str());
+                }
+            }
+        }
     }
-    output.push_str(");\n");
-
+    output.push_str(format!("\",{});", vrs.join(",")).as_str());
     output
 }
 
-pub fn bc_gcc(tokens: TokenList) {
-    check_compiler("gcc");
-    compile_code(tokens, "gcc");
-}
-
-pub fn bc_clang(tokens: TokenList) {
-    check_compiler("clang");
-    compile_code(tokens, "clang");
-}
-
-fn check_compiler(compiler: &str) {
+pub fn check_compiler(compiler: &str) {
     let output = Command::new(compiler)
         .arg("--version")
         .output()
@@ -183,12 +214,20 @@ fn check_compiler(compiler: &str) {
         });
 
     if !output.status.success() {
-        eprintln!("{} is installed, but there was an issue running the command.", compiler);
+        eprintln!("{} is not installed or not found in the system's PATH.", compiler);
         exit(1);
     }
 }
 
-fn compile_code(tokens: TokenList, compiler: &str) {
+pub fn show_progress_bar() {
+    let pb = ProgressBar::new_spinner();
+    pb.enable_steady_tick(Duration::from_millis(100));
+    pb.set_message("Compiling...");
+    std::thread::sleep(Duration::from_secs(2));
+    pb.finish_with_message("Compilation finished.");
+}
+
+pub fn compile_code(tokens: TokenList, compiler: &str) {
     let code = gen_cc(tokens);
     let mut file = File::create("t.c").unwrap_or_else(|_| {
         eprintln!("Unable to create 't.c'. Compilation failed.");
@@ -203,7 +242,7 @@ fn compile_code(tokens: TokenList, compiler: &str) {
     compile_with(compiler);
 }
 
-fn compile_with(compiler: &str) {
+pub fn compile_with(compiler: &str) {
     let pb = ProgressBar::new_spinner();
     pb.set_message("Compiling...");
 
@@ -213,7 +252,6 @@ fn compile_with(compiler: &str) {
         .arg("-o")
         .arg("t.o")
         .arg("-O3")
-        .arg("-static")
         .output()
         .unwrap_or_else(|_| {
             eprintln!("Failed to execute {}.", compiler);
@@ -250,8 +288,7 @@ fn compile_with(compiler: &str) {
     while !link_output.status.success() {
         std::thread::sleep(Duration::from_millis(100));
     }
-    pb.finish_with_message("Linking complete.");
-
+    
     if !link_output.status.success() {
         eprintln!(
             "Linking failed with {}: {}",
@@ -260,6 +297,10 @@ fn compile_with(compiler: &str) {
         );
         exit(1);
     }
+    pb.finish_with_message("Finished building");
 
-    fs::remove_file("t.o").expect("Failed to remove 't.o'");
+    fs::remove_file("t.o").unwrap_or_else(|_| {
+        eprintln!("Failed to delete temporary file 't.o'.");
+        exit(1);
+    });
 }
