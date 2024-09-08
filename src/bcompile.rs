@@ -200,7 +200,13 @@ fn generate_print_code(text: &str, vars: &[(String, Var, String)]) -> String {
             }
         }
     }
-    output.push_str(format!("\",{});", vrs.join(",")).as_str());
+    if !vrs.is_empty(){
+
+        output.push_str(format!("\",{});", vrs.join(",")).as_str());
+    }
+    else{
+        output.push_str(format!("\");").as_str());
+    }
     output
 }
 
