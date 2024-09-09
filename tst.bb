@@ -1,3 +1,1008 @@
 may age = 90
-may age = 911
-may age = 9111
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
+may age = 90
+may tst = "901"
+may km = 0.0
+echoln("$age $tst $km")
