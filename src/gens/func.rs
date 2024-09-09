@@ -46,13 +46,13 @@ pub fn p_fn(
 
 fn process_function_body(ln: &str, function_body: &mut TokenList, vrs: &mut Vec<(String, i32)>) {
     if ln.starts_with("echoln(\"") && ln.ends_with("\")") {
-        let ptxt = p_print(ln, &function_body);
+        let ptxt = p_print(ln, function_body);
         function_body.push(Tokens::Print(ptxt));
     } else if ln.starts_with("may ") {
         let (name, var, usename) = pvar(ln, vrs);
         function_body.push(Tokens::Variable(name.clone(), var.clone(), usename.clone()));
     } else if ln.starts_with("takein(") && ln.ends_with(")") {
-        let g = pin(ln, &function_body);
+        let g = pin(ln, function_body);
         if g.0 {
             function_body.push(Tokens::Takein(g.1.clone()));
         }

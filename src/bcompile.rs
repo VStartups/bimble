@@ -19,7 +19,7 @@ pub fn gen_cc(tokens: TokenList) -> String {
     for token in tokens.get() {
         match token {
             Tokens::Variable(name, ty, use_name) => {
-                let unique_use_name = get_unique_use_name(&use_name, &mut var_names_count);
+                let unique_use_name = get_unique_use_name(use_name, &mut var_names_count);
                 updated_tokens.push(Tokens::Variable(
                     name.clone(),
                     ty.clone(),
@@ -48,7 +48,7 @@ pub fn gen_cc(tokens: TokenList) -> String {
                 main_code.push_str(&format!("{}();\n", name));
             }
             Tokens::Print(text) => {
-                let print_code = generate_print_code(&text, &vars);
+                let print_code = generate_print_code(text, &vars);
                 main_code.push_str(&print_code);
             }
             Tokens::Takein(name) => {
@@ -84,7 +84,7 @@ pub fn gen_fc(
                     func_code.push_str(format!("\nfree({});", use_name).as_str());
                 }
 
-                let unique_use_name = get_unique_use_name(&use_name, var_names_count);
+                let unique_use_name = get_unique_use_name(use_name, var_names_count);
 
                 let mut found = false;
 
@@ -117,7 +117,7 @@ pub fn gen_fc(
                 func_code.push_str(&format!("{}();\n", name));
             }
             Tokens::Print(text) => {
-                let print_code = generate_print_code(&text, &updated_vars);
+                let print_code = generate_print_code(text, &updated_vars);
                 func_code.push_str(&print_code);
             }
             Tokens::Takein(name) => {
@@ -178,10 +178,8 @@ fn generate_print_code(text: &str, vars: &[(String, Var, String)]) -> String {
                     }
                 }
             }
-        } else {
-            if !inv {
-                output.push(i);
-            }
+        } else if !inv {
+            output.push(i);
         }
     }
     for v in vars {
@@ -189,13 +187,13 @@ fn generate_print_code(text: &str, vars: &[(String, Var, String)]) -> String {
             vrs.push(v.2.clone());
             match v.1 {
                 Var::INT(_) => {
-                    output.push_str(format!("%lld").as_str());
+                    output.push_str("%lld".to_string().as_str());
                 }
                 Var::STR(_) => {
-                    output.push_str(format!("%s").as_str());
+                    output.push_str("%s".to_string().as_str());
                 }
                 Var::F(_) => {
-                    output.push_str(format!("%f").as_str());
+                    output.push_str("%f".to_string().as_str());
                 }
             }
         }
@@ -205,7 +203,7 @@ fn generate_print_code(text: &str, vars: &[(String, Var, String)]) -> String {
         output.push_str(format!("\\n\",{});", vrs.join(",")).as_str());
     }
     else{
-        output.push_str(format!("\\n\");").as_str());
+        output.push_str("\\n\");".to_string().as_str());
     }
     output
 }

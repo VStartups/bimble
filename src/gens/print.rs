@@ -69,7 +69,7 @@ pub fn p_print(code: &str, tl: &TokenList) -> String {
 }
 
 fn process_variable(variable_name_caught: &str, tl: &TokenList, result: &mut String, code: &str) {
-    let variable_name = &variable_name_caught[..]; // Remove the '$' sign
+    let variable_name = variable_name_caught; // Remove the '$' sign
     println!("Processing variable name: '{}'", variable_name);
     if tl.get().iter().any(|token| {
         if let Tokens::Variable(name, _, _) = token {
@@ -78,7 +78,7 @@ fn process_variable(variable_name_caught: &str, tl: &TokenList, result: &mut Str
             false
         }
     }) {
-        result.push_str(&format!("{}", variable_name)); // Add the variable name to the result
+        result.push_str(&variable_name.to_string()); // Add the variable name to the result
         println!("Variable '{}' found and added to result", variable_name);
     } else {
         eprintln!("Variable '{}' not found. Code: \n{}", variable_name, code);
