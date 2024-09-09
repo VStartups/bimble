@@ -14,7 +14,10 @@ jobs:
     outputs:
       new_version: ${{ steps.increment_version.outputs.new_version }}
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Ensures full history including tags
 
       - name: Set up Git
         run: git fetch --prune --unshallow
@@ -49,7 +52,7 @@ jobs:
         run: zip -r bimble_linux.zip target/x86_64-unknown-linux-gnu/release/bimble
 
       - name: Upload Artifact (Linux)
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v3 # Updated to use Node 20
         with:
           name: bimble_linux
           path: bimble_linux.zip
@@ -57,10 +60,11 @@ jobs:
   build-windows:
     runs-on: windows-latest
     needs: build-linux
-    outputs:
-      new_version: ${{ needs.build-linux.outputs.new_version }}
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Ensures full history including tags
 
       - name: Set up Git
         run: git fetch --prune --unshallow
@@ -101,7 +105,7 @@ jobs:
           Compress-Archive -Path target\x86_64-pc-windows-msvc\release\bimble.exe,vc_redist.x64.exe -DestinationPath bimble_windows.zip
 
       - name: Upload Artifact (Windows)
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v3  # Updated to use Node 20
         with:
           name: bimble_windows
           path: bimble_windows.zip
@@ -109,10 +113,11 @@ jobs:
   build-macos:
     runs-on: macos-latest
     needs: build-linux
-    outputs:
-      new_version: ${{ needs.build-linux.outputs.new_version }}
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Ensures full history including tags
 
       - name: Set up Git
         run: git fetch --prune --unshallow
@@ -150,7 +155,7 @@ jobs:
         run: zip -j bimble_macos.zip target/x86_64-apple-darwin/release/bimble
 
       - name: Upload Artifact (macOS)
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v3  # Updated to use Node 20
         with:
           name: bimble_macos
           path: bimble_macos.zip
