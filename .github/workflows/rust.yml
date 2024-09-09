@@ -19,8 +19,13 @@ jobs:
         with:
           fetch-depth: 0  # Ensures full history including tags
 
-      - name: Set up Git
-        run: git fetch --prune --unshallow
+      - name: Ensure Git Repository is Not Shallow
+        run: |
+          if [ "$(git rev-parse --is-shallow-repository)" = "true" ]; then
+            git fetch --prune --unshallow
+          else
+            echo "Repository is already fully cloned."
+          fi
 
       - name: Get Latest Tag
         id: get_latest_tag
