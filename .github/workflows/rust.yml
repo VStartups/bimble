@@ -71,8 +71,14 @@ jobs:
         with:
           fetch-depth: 0  # Ensures full history including tags
 
-      - name: Set up Git
-        run: git fetch --prune --unshallow
+      - name: Ensure Git Repository is Not Shallow (Windows)
+        shell: pwsh
+        run: |
+          if ((git rev-parse --is-shallow-repository) -eq "true") {
+            git fetch --prune --unshallow
+          } else {
+            Write-Host "Repository is already fully cloned."
+          }
 
       - name: Get Latest Tag
         id: get_latest_tag
@@ -124,8 +130,13 @@ jobs:
         with:
           fetch-depth: 0  # Ensures full history including tags
 
-      - name: Set up Git
-        run: git fetch --prune --unshallow
+     - name: Ensure Git Repository is Not Shallow (macOS)
+        run: |
+          if [ "$(git rev-parse --is-shallow-repository)" = "true" ]; then
+            git fetch --prune --unshallow
+          else
+            echo "Repository is already fully cloned."
+          fi
 
       - name: Get Latest Tag
         id: get_latest_tag
