@@ -10,7 +10,7 @@ pub fn pin(
 
     let nm = nm.trim_end_matches(")");
 
-    println!("Debug => NM : {}", nm);
+    //println!("Debug => NM : {}", nm);
 
     for i in tl.get()
     {

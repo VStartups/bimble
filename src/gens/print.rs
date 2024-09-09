@@ -21,7 +21,7 @@ pub fn p_print(
 
     let mut inside_var = false;
 
-    println!("Processing text: '{}'", txt);
+    //println!("Processing text: '{}'", txt);
 
     for c in txt.chars()
     {
@@ -42,7 +42,7 @@ pub fn p_print(
                 if !variable_name_caught.is_empty()
                 {
 
-                    println!("Flushing literal text: '{}'", variable_name_caught);
+                    //println!("Flushing literal text: '{}'", variable_name_caught);
 
                     result.push_str(&variable_name_caught); // Flush any literal text
                     variable_name_caught.clear();
@@ -50,7 +50,7 @@ pub fn p_print(
 
                 result.push(c); // Add the dollar sign
                 inside_var = true; // Start processing a variable
-                println!("Entering variable mode with '$'");
+                //println!("Entering variable mode with '$'");
             }
             ' ' | ';' | ',' | '.' | ':' =>
             {
@@ -58,7 +58,7 @@ pub fn p_print(
                 if inside_var
                 {
 
-                    println!("Processing variable: '{}'", variable_name_caught);
+                    //println!("Processing variable: '{}'", variable_name_caught);
 
                     process_variable(&variable_name_caught, tl, &mut result, code);
 
@@ -69,13 +69,13 @@ pub fn p_print(
 
                 result.push(c);
 
-                println!("Appending special character or space: '{}'", c);
+                //println!("Appending special character or space: '{}'", c);
             }
             _ if inside_var =>
             {
 
                 variable_name_caught.push(c); // Continue collecting the variable name
-                println!("Collecting variable character: '{}'", c);
+               // println!("Collecting variable character: '{}'", c);
             }
             _ =>
             {
@@ -83,10 +83,10 @@ pub fn p_print(
                 if inside_var
                 {
 
-                    println!(
-                        "Processing variable before appending character: '{}'",
-                        variable_name_caught
-                    );
+                    // println!(
+                    //     "Processing variable before appending character: '{}'",
+                    //     variable_name_caught
+                    // );
 
                     process_variable(&variable_name_caught, tl, &mut result, code);
 
@@ -96,7 +96,7 @@ pub fn p_print(
                 }
 
                 result.push(c); // Collect literal text
-                println!("Appending literal character: '{}'", c);
+                //println!("Appending literal character: '{}'", c);
             }
         }
     }
@@ -104,7 +104,7 @@ pub fn p_print(
     if inside_var
     {
 
-        println!("Processing remaining variable: '{}'", variable_name_caught);
+        //println!("Processing remaining variable: '{}'", variable_name_caught);
 
         process_variable(&variable_name_caught, tl, &mut result, code);
     }
@@ -121,7 +121,7 @@ fn process_variable(
 {
 
     let variable_name = variable_name_caught; // Remove the '$' sign
-    println!("Processing variable name: '{}'", variable_name);
+    //println!("Processing variable name: '{}'", variable_name);
 
     if tl.get().iter().any(|token| {
         if let Tokens::Variable(name, ..) = token
@@ -138,7 +138,7 @@ fn process_variable(
     {
 
         result.push_str(variable_name); // Add the variable name to the result
-        println!("Variable '{}' found and added to result", variable_name);
+        //println!("Variable '{}' found and added to result", variable_name);
     }
     else
     {
