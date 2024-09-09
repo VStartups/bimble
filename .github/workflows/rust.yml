@@ -45,6 +45,7 @@ jobs:
           patch=$(echo $version | cut -d. -f3)
           new_version="v$major.$minor.$((patch + 1))"
           echo "new_version=$new_version" >> $GITHUB_ENV
+          echo "::set-output name=new_version::$new_version"  # Set the output for the new version
 
       - name: Build for Linux
         run: cargo build --release --target x86_64-unknown-linux-gnu
@@ -211,6 +212,10 @@ jobs:
       - name: Create and Push Git Tag
         run: |
           new_version=${{ needs.build-linux.outputs.new_version }}
+          if [ -z "$new_version" ]; then
+            echo "Error: new_version is empty"
+            exit 1
+          fi
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
           git tag $new_version
