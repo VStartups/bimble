@@ -1,4 +1,5 @@
 name: CI
+
 on:
   push:
     branches: ["master"]
@@ -29,7 +30,9 @@ jobs:
 
       - name: Get Latest Tag
         id: get_latest_tag
-        run: echo "latest_tag=$(git describe --tags $(git rev-list --tags --max-count=1))" >> $GITHUB_ENV
+        run: |
+          latest_tag=$(git describe --tags $(git rev-list --tags --max-count=1))
+          echo "latest_tag=$latest_tag" >> $GITHUB_ENV
 
       - name: Increment Version
         id: increment_version
@@ -57,7 +60,7 @@ jobs:
         run: zip -r bimble_linux.zip target/x86_64-unknown-linux-gnu/release/bimble
 
       - name: Upload Artifact (Linux)
-        uses: actions/upload-artifact@v3 # Updated to use Node 20
+        uses: actions/upload-artifact@v3
         with:
           name: bimble_linux
           path: bimble_linux.zip
@@ -116,7 +119,7 @@ jobs:
           Compress-Archive -Path target\x86_64-pc-windows-msvc\release\bimble.exe,vc_redist.x64.exe -DestinationPath bimble_windows.zip
 
       - name: Upload Artifact (Windows)
-        uses: actions/upload-artifact@v3  # Updated to use Node 20
+        uses: actions/upload-artifact@v3
         with:
           name: bimble_windows
           path: bimble_windows.zip
@@ -130,7 +133,7 @@ jobs:
         with:
           fetch-depth: 0  # Ensures full history including tags
 
-     - name: Ensure Git Repository is Not Shallow (macOS)
+      - name: Ensure Git Repository is Not Shallow (macOS)
         run: |
           if [ "$(git rev-parse --is-shallow-repository)" = "true" ]; then
             git fetch --prune --unshallow
@@ -140,7 +143,9 @@ jobs:
 
       - name: Get Latest Tag
         id: get_latest_tag
-        run: echo "latest_tag=$(git describe --tags $(git rev-list --tags --max-count=1))" >> $GITHUB_ENV
+        run: |
+          latest_tag=$(git describe --tags $(git rev-list --tags --max-count=1))
+          echo "latest_tag=$latest_tag" >> $GITHUB_ENV
 
       - name: Increment Version
         id: increment_version
@@ -171,7 +176,7 @@ jobs:
         run: zip -j bimble_macos.zip target/x86_64-apple-darwin/release/bimble
 
       - name: Upload Artifact (macOS)
-        uses: actions/upload-artifact@v3  # Updated to use Node 20
+        uses: actions/upload-artifact@v3
         with:
           name: bimble_macos
           path: bimble_macos.zip
